@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Калькулятор растаможки авто в Казахстане 2026: пошлина, НДС, утильсбор</title>
+<meta name="description" content="Рассчитайте растаможку авто в Казахстане в 2026 году: пошлина, НДС 16%, утильсбор, акциз и регистрация. Бесплатный онлайн-калькулятор с расшифровкой.">
+<meta property="og:title" content="Калькулятор растаможки авто в Казахстане 2026">
+<meta property="og:description" content="Пошлина, НДС, утильсбор, акциз и регистрация в одной квитанции.">
+<meta property="og:type" content="website">
+<style>
+:root{--bg:#eef1f4;--card:#fff;--ink:#0f1b2d;--mute:#5a6678;--line:#d5dbe3;--acc:#1456d9;--acc-ink:#fff;--stamp:#c8372d;--note:#fff6dc;--note-ink:#5e4600}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1118;--card:#151b25;--ink:#e8edf5;--mute:#93a0b4;--line:#2a3342;--acc:#6b9bff;--acc-ink:#0a1530;--stamp:#ff7a6e;--note:#2a2410;--note-ink:#f0d48a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.65rem;line-height:1.2;margin:8px 0 8px;letter-spacing:-.01em}
+h2{font-size:1.2rem;margin:36px 0 10px}
+p{margin:0 0 12px}
+.lead{color:var(--mute);margin-bottom:20px}
+form,.receipt,.box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.grid{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.full{grid-column:1/-1}
+label{display:block;font-size:.88rem;color:var(--mute);margin-bottom:4px}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 10px;min-height:44px}
+input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+button{font:inherit;font-weight:600;min-height:48px;border:0;border-radius:6px;background:var(--acc);color:var(--acc-ink);padding:0 20px;cursor:pointer;width:100%}
+.err{color:var(--stamp);font-size:.9rem;min-height:1.2em;margin:8px 0 0}
+.receipt{margin-top:20px;border-style:dashed;border-width:2px}
+.receipt[hidden]{display:none}
+.receipt h2{margin:0 0 12px;font-size:1.05rem}
+.row{display:flex;align-items:baseline;gap:8px;padding:4px 0}
+.row .dots{flex:1;border-bottom:2px dotted var(--line);transform:translateY(-4px)}
+.row b{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.row span:first-child{max-width:62%}
+.total{border-top:2px solid var(--ink);margin-top:8px;padding-top:10px;font-size:1.15rem}
+.total b{color:var(--stamp);font-size:1.3rem}
+.sub{color:var(--mute);font-size:.92rem}
+.note{background:var(--note);color:var(--note-ink);border-radius:8px;padding:10px 12px;font-size:.9rem;margin-top:12px}
+details{border-bottom:1px solid var(--line);padding:10px 0}
+summary{cursor:pointer;font-weight:600}
+details p{margin:8px 0 0;color:var(--mute)}
+.ok{color:var(--acc);font-weight:600}
+footer{margin-top:32px;color:var(--mute);font-size:.85rem}
+@media(max-width:420px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<h1>Калькулятор растаможки авто в Казахстане</h1>
+<p class="lead">Узнайте, сколько заплатите за ввоз легкового авто из-за границы: пошлина, НДС, утильсбор, акциз и регистрация. Ставки на 2026 год.</p>
+
+<form id="calc" novalidate>
+  <div class="grid">
+    <div><label for="price">Цена авто</label><input id="price" type="number" inputmode="decimal" min="0" placeholder="15000"></div>
+    <div><label for="cur">Валюта</label>
+      <select id="cur"><option>USD</option><option>EUR</option><option>KRW</option><option>CNY</option><option>AED</option><option>KZT</option></select></div>
+    <div><label for="fx">Курс валюты к ₸</label><input id="fx" type="number" inputmode="decimal" step="any"></div>
+    <div><label for="eur">Курс евро к ₸</label><input id="eur" type="number" inputmode="decimal" step="any"></div>
+    <div class="full"><label for="ship">Доставка и страховка до границы (в той же валюте)</label><input id="ship" type="number" inputmode="decimal" min="0" placeholder="0"></div>
+    <div><label for="fuel">Двигатель</label>
+      <select id="fuel"><option value="petrol">Бензин</option><option value="diesel">Дизель</option><option value="hybrid">Гибрид</option><option value="ev">Электро</option></select></div>
+    <div><label for="cc">Объём, см³</label><input id="cc" type="number" inputmode="numeric" placeholder="1998"></div>
+    <div class="full"><label for="year">Год выпуска</label><input id="year" type="number" inputmode="numeric" placeholder="2021"></div>
+  </div>
+  <p class="err" id="err" role="alert"></p>
+  <button type="submit">Рассчитать растаможку</button>
+</form>
+
+<section class="receipt" id="out" hidden aria-live="polite">
+  <h2>Квитанция расчёта</h2>
+  <div id="rows"></div>
+  <div class="note" id="notes"></div>
+
+  <form id="lead" name="lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="margin-top:16px;padding:0;border:0;background:none">
+    <input type="hidden" name="form-name" value="lead">
+    <input type="hidden" name="calc" id="calcField">
+    <p style="display:none"><label>Не заполняйте: <input name="bot-field"></label></p>
+    <p style="font-weight:600;margin-bottom:8px">Нужен точный расчёт от брокера?</p>
+    <div class="grid">
+      <div><label for="nm">Имя</label><input id="nm" name="name" required autocomplete="name"></div>
+      <div><label for="ph">Телефон или WhatsApp</label><input id="ph" name="phone" type="tel" required autocomplete="tel"></div>
+    </div>
+    <p class="err" id="lerr" role="alert"></p>
+    <button type="submit">Получить точный расчёт</button>
+  </form>
+</section>
+
+<h2>Из чего складывается растаможка</h2>
+<div class="box">
+  <p><b>Пошлина.</b> Для большинства авто 15% от таможенной стоимости. Для авто старше 7 лет действует минимум в евро за каждый см³.</p>
+  <p><b>НДС 16%.</b> Считается от стоимости с учётом пошлины.</p>
+  <p><b>Утильсбор.</b> 50 МРП, умноженные на коэффициент по объёму двигателя. Электромобили не платят.</p>
+  <p style="margin:0"><b>Акцизы и регистрация.</b> Акциз для двигателей больше 3000 см³ и для очень дорогих авто, затем сбор за первичную регистрацию.</p>
+</div>
+
+<h2>Частые вопросы</h2>
+<details><summary>Какой МРП в 2026 году?</summary><p>4 325 ₸. На него завязаны утильсбор, сбор за оформление и регистрация.</p></details>
+<details><summary>Как считается возраст авто?</summary><p>Таможня считает от даты выпуска до даты подачи декларации. Калькулятор берёт разницу лет, поэтому у границы возрастных групп результат может отличаться.</p></details>
+<details><summary>Что с электромобилями и гибридами?</summary><p>Электромобили не платят пошлину и утильсбор. Обычные гибриды считаются как авто с ДВС. Для гибридов с последовательной схемой (EREV) условия лучше уточнить у брокера.</p></details>
+<details><summary>Почему итог может отличаться от таможни?</summary><p>Таможня может пересчитать стоимость по своему каталогу цен, а ставки и сборы меняются. Расчёт предварительный.</p></details>
+
+<footer>
+  <p>Расчёт ориентировочный и не является официальным решением таможни. Ставки действуют на 2026 год и могут измениться. Перед покупкой авто уточните сумму у лицензированного брокера.</p>
+</footer>
+</main>
+
+<script>
+/* ===== Ставки: меняйте только здесь ===== */
+const CFG = {
+  mrp: 4325,
+  vat: 0.16,
+  duty: 0.15,
+  dutyOldMinEur: 0.6,        // авто старше 7 лет, евро за см³
+  dutyMidOldEur: 0.5,        // 1500-3000 см³, старше 7 лет
+  dutyMidOldMin: 0.15, dutyMidOldMax: 0.18,
+  feeMrp: 6,
+  utilMrp: 50,
+  utilCoef: [[1000, 1.5], [2000, 3.5], [3000, 5], [Infinity, 11.5]],
+  excisePerCc: 100,          // авто больше 3000 см³, за каждый см³ (проверьте базу)
+  luxMrp: 18000, luxPct: 0.10,
+  regOver3Mrp: 500,          // первичная регистрация авто старше 3 лет
+  /* Курсы по умолчанию. ОБНОВИТЕ перед запуском по данным Нацбанка */
+  fx: { USD: 520, EUR: 600, KRW: 0.38, CNY: 72, AED: 142, KZT: 1 }
+};
+
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString('ru-RU') + ' ₸';
+
+function setFx(){ $('fx').value = CFG.fx[$('cur').value]; }
+$('eur').value = CFG.fx.EUR; setFx();
+$('cur').addEventListener('change', setFx);
+$('fuel').addEventListener('change', () => { $('cc').disabled = $('fuel').value === 'ev'; });
+
+function calc(i){
+  const value = (i.price + i.ship) * i.fx;               // таможенная стоимость, ₸
+  const age = i.nowYear - i.year;
+  let duty = value * CFG.duty;
+  if (age > 7){
+    if (i.cc > 1500 && i.cc <= 3000){
+      const byCc = i.cc * CFG.dutyMidOldEur * i.eur;
+      duty = Math.min(Math.max(byCc, value * CFG.dutyMidOldMin), value * CFG.dutyMidOldMax);
+    } else {
+      duty = Math.max(duty, i.cc * CFG.dutyOldMinEur * i.eur);
+    }
+  }
+  const ev = i.fuel === 'ev';
+  if (ev) duty = 0;
+  const excise = !ev && i.cc > 3000 ? i.cc * CFG.excisePerCc : 0;
+  const lux = value >= CFG.luxMrp * CFG.mrp ? value * CFG.luxPct : 0;
+  const vat = (value + duty + excise) * CFG.vat;
+  const fee = CFG.feeMrp * CFG.mrp;
+  const coef = CFG.utilCoef.find(c => i.cc <= c[0])[1];
+  const util = ev ? 0 : CFG.utilMrp * CFG.mrp * coef;
+  const reg = age > 3 ? CFG.regOver3Mrp * CFG.mrp : null;
+  const total = duty + vat + fee + util + excise + lux + (reg || 0);
+  return { value, age, duty, vat, fee, util, excise, lux, reg, total };
+}
+
+$('calc').addEventListener('submit', e => {
+  e.preventDefault();
+  const nowYear = new Date().getFullYear();
+  const i = {
+    price: +$('price').value, ship: +$('ship').value || 0, fx: +$('fx').value, eur: +$('eur').value,
+    fuel: $('fuel').value, cc: +$('cc').value, year: +$('year').value, nowYear
+  };
+  if ($('fuel').value === 'ev') i.cc = 0;
+  let msg = '';
+  if (!(i.price > 0)) msg = 'Укажите цену авто.';
+  else if (!(i.fx > 0) || !(i.eur > 0)) msg = 'Укажите курсы валют.';
+  else if (i.fuel !== 'ev' && !(i.cc >= 600 && i.cc <= 8000)) msg = 'Объём двигателя должен быть от 600 до 8000 см³.';
+  else if (!(i.year >= 1990 && i.year <= nowYear + 1)) msg = 'Год выпуска должен быть от 1990 до ' + (nowYear + 1) + '.';
+  $('err').textContent = msg;
+  if (msg) return;
+
+  const r = calc(i);
+  const row = (t, v, cls) => `<div class="row ${cls || ''}"><span>${t}</span><span class="dots"></span><b>${v}</b></div>`;
+  let h = row('Таможенная стоимость', fmt(r.value));
+  h += row('Таможенная пошлина', fmt(r.duty));
+  h += row('НДС 16%', fmt(r.vat));
+  h += row('Сбор за оформление', fmt(r.fee));
+  h += row('Утилизационный сбор', fmt(r.util));
+  if (r.excise) h += row('Акциз', fmt(r.excise));
+  if (r.lux) h += row('Спецакциз 10%', fmt(r.lux));
+  h += row('Первичная регистрация', r.reg === null ? 'уточняйте' : fmt(r.reg));
+  h += row('Итого платежи', fmt(r.total), 'total');
+  h += `<p class="sub" style="margin-top:10px">Авто «под ключ»: <b>${fmt(r.value + r.total)}</b> (стоимость и все платежи)</p>`;
+  $('rows').innerHTML = h;
+
+  let n = `Возраст авто: ${r.age} л. Расчёт предварительный.`;
+  if (r.reg === null) n += ' Регистрация авто до 3 лет не включена в итог.';
+  $('notes').textContent = n;
+  $('calcField').value = `Цена ${i.price} ${$('cur').value}, доставка ${i.ship}, ${i.fuel}, ${i.cc} см3, ${i.year} г. Итого платежей: ${fmt(r.total)}`;
+  $('out').hidden = false;
+  $('out').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+$('lead').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!$('nm').value.trim() || !$('ph').value.trim()) { $('lerr').textContent = 'Укажите имя и телефон.'; return; }
+  $('lerr').textContent = '';
+  const body = new URLSearchParams(new FormData($('lead'))).toString();
+  try {
+    const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+    if (!res.ok) throw new Error();
+    $('lead').innerHTML = '<p class="ok">Заявка отправлена. Мы свяжемся с вами.</p>';
+  } catch (_) {
+    $('lerr').textContent = 'Не удалось отправить. Попробуйте ещё раз позже.';
+  }
+});
+</script>
+</body>
+</html>
