@@ -41,6 +41,7 @@ details{border-bottom:1px solid var(--line);padding:10px 0}
 summary{cursor:pointer;font-weight:600}
 details p{margin:8px 0 0;color:var(--mute)}
 .ok{color:var(--acc);font-weight:600}
+.btn{display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:6px;background:var(--acc);color:var(--acc-ink);font-weight:600;text-decoration:none}
 footer{margin-top:32px;color:var(--mute);font-size:.85rem}
 @media(max-width:420px){.grid{grid-template-columns:1fr}}
 </style>
@@ -72,18 +73,8 @@ footer{margin-top:32px;color:var(--mute);font-size:.85rem}
   <div id="rows"></div>
   <div class="note" id="notes"></div>
 
-  <form id="lead" name="lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="margin-top:16px;padding:0;border:0;background:none">
-    <input type="hidden" name="form-name" value="lead">
-    <input type="hidden" name="calc" id="calcField">
-    <p style="display:none"><label>Не заполняйте: <input name="bot-field"></label></p>
-    <p style="font-weight:600;margin-bottom:8px">Нужен точный расчёт от брокера?</p>
-    <div class="grid">
-      <div><label for="nm">Имя</label><input id="nm" name="name" required autocomplete="name"></div>
-      <div><label for="ph">Телефон или WhatsApp</label><input id="ph" name="phone" type="tel" required autocomplete="tel"></div>
-    </div>
-    <p class="err" id="lerr" role="alert"></p>
-    <button type="submit">Получить точный расчёт</button>
-  </form>
+  <p style="font-weight:600;margin:16px 0 8px">Нужен точный расчёт от брокера?</p>
+  <a class="btn" id="wa" href="#" target="_blank" rel="noopener">Получить расчёт в WhatsApp</a>
 </section>
 
 <h2>Из чего складывается растаможка</h2>
@@ -107,6 +98,8 @@ footer{margin-top:32px;color:var(--mute);font-size:.85rem}
 
 <script>
 /* ===== Ставки: меняйте только здесь ===== */
+/* Номер WhatsApp для заявок: страна+номер без плюса и пробелов, например 77011234567 */
+const WA_PHONE = '77000000000';
 const CFG = {
   mrp: 4325,
   vat: 0.16,
@@ -121,7 +114,7 @@ const CFG = {
   luxMrp: 18000, luxPct: 0.10,
   regOver3Mrp: 500,          // первичная регистрация авто старше 3 лет
   /* Курсы по умолчанию. ОБНОВИТЕ перед запуском по данным Нацбанка */
-  fx: { USD: 448, EUR: 502, KRW: 0.38, CNY: 67, AED: 122, KZT: 1 }
+  fx: { USD: 520, EUR: 600, KRW: 0.38, CNY: 72, AED: 142, KZT: 1 }
 };
 
 const $ = id => document.getElementById(id);
@@ -190,24 +183,12 @@ $('calc').addEventListener('submit', e => {
   let n = `Возраст авто: ${r.age} л. Расчёт предварительный.`;
   if (r.reg === null) n += ' Регистрация авто до 3 лет не включена в итог.';
   $('notes').textContent = n;
-  $('calcField').value = `Цена ${i.price} ${$('cur').value}, доставка ${i.ship}, ${i.fuel}, ${i.cc} см3, ${i.year} г. Итого платежей: ${fmt(r.total)}`;
+  const txt = `Здравствуйте! Хочу точный расчёт растаможки. Цена ${i.price} ${$('cur').value}, доставка ${i.ship}, ${i.fuel}, ${i.cc} см3, ${i.year} г. Предварительно: ${fmt(r.total)}`;
+  $('wa').href = 'https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(txt);
   $('out').hidden = false;
   $('out').scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
-$('lead').addEventListener('submit', async e => {
-  e.preventDefault();
-  if (!$('nm').value.trim() || !$('ph').value.trim()) { $('lerr').textContent = 'Укажите имя и телефон.'; return; }
-  $('lerr').textContent = '';
-  const body = new URLSearchParams(new FormData($('lead'))).toString();
-  try {
-    const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
-    if (!res.ok) throw new Error();
-    $('lead').innerHTML = '<p class="ok">Заявка отправлена. Мы свяжемся с вами.</p>';
-  } catch (_) {
-    $('lerr').textContent = 'Не удалось отправить. Попробуйте ещё раз позже.';
-  }
-});
 </script>
 </body>
 </html>
